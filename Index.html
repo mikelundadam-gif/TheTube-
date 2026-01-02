@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>TheTube</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #0f0f0f;
+      color: white;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #181818;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header h1 {
+      color: red;
+      margin: 0;
+      font-size: 22px;
+    }
+    header input {
+      margin-left: 30px;
+      flex: 1;
+      padding: 8px;
+      border-radius: 20px;
+      border: none;
+      outline: none;
+    }
+    .container {
+      display: flex;
+    }
+    nav {
+      width: 200px;
+      background-color: #181818;
+      height: calc(100vh - 60px);
+      padding-top: 10px;
+    }
+    nav a {
+      display: block;
+      padding: 12px 20px;
+      color: white;
+      text-decoration: none;
+    }
+    nav a:hover {
+      background-color: #303030;
+    }
+    main {
+      flex: 1;
+      padding: 20px;
+    }
+    .videos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .video-card {
+      background-color: #202020;
+      border-radius: 10px;
+      padding: 10px;
+      cursor: pointer;
+    }
+    .video-card video {
+      width: 100%;
+      border-radius: 10px;
+    }
+    .video-card p {
+      margin: 8px 0 0;
+      font-size: 14px;
+    }
+    #player {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0,0,0,0.9);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    #player video {
+      width: 80%;
+      max-width: 900px;
+    }
+    #closeBtn {
+      margin-top: 15px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      background-color: red;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>TheTube</h1>
+  <input type="text" placeholder="Cerca" />
+</header>
+
+<div class="container">
+  <nav>
+    <a href="#">🏠 Home</a>
+    <a href="#">🔥 Trend</a>
+    <a href="#">🎬 Video</a>
+  </nav>
+
+  <main>
+    <h2>Video consigliati</h2>
+    <div class="videos" id="videoList"></div>
+  </main>
+</div>
+
+<div id="player">
+  <video id="mainVideo" controls></video>
+  <button id="closeBtn" onclick="closePlayer()">Chiudi</button>
+</div>
+
+<script>
+  const videoList = document.getElementById('videoList');
+  const player = document.getElementById('player');
+  const mainVideo = document.getElementById('mainVideo');
+
+  for (let i = 1; i <= 20; i++) {
+    const card = document.createElement('div');
+    card.className = 'video-card';
+    card.innerHTML = `
+      <video src="video${i}.mp4" muted></video>
+      <p>Video ${i}</p>
+    `;
+    card.onclick = () => openPlayer(`video${i}.mp4`);
+    videoList.appendChild(card);
+  }
+
+  function openPlayer(src) {
+    mainVideo.src = src;
+    player.style.display = 'flex';
+    mainVideo.play();
+  }
+
+  function closePlayer() {
+    mainVideo.pause();
+    mainVideo.src = '';
+    player.style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
